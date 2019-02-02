@@ -34,7 +34,9 @@ def display_prediction(price=None, category=None):
 	loaded_model = pickle.load(open("random-forest-model.sav", 'rb'))
 	result = loaded_model.predict(data)
 	print(result)
-	ret_data = {'predicted_val' : result}
+	ret_data = {'price' : price,
+				'category' : category,
+				'predicted_val' : result[0]}
 	return dumps(ret_data)
 
 if __name__ == "__main__":
