@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Final Project</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.5.0/d3.min.js"></script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="static/styles/project-3.css">
+</head>
+<body>
+        <div class="container body-container">
+                <div class="row page-header">
+                    <div class="col-md-11 "><h1>Final Project</h1></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2">                        
+                    </div>
+                    <div class="col-md-8">
+                        <h3>Overview</h3>
+                        <p>
+                                Project 3 is the final team activity and is the cumulative overview of the various topics learnt, including  of API data pulls,  storing and analyzing data, predictive analysis  using machine learning and visualization for the chosen topic.
+                        </p>
+                        <p>
+                                We worked on finding a solution to predicting optimal price point for a n upcoming book based on category, given the topic.  The learnings from one category – books , then can be applied to other categories and help forming a pattern to help the seller determine the best price for their offerings. We want to deep dive into data analysis and gain insights on predictive capability of the data via machine learning. 
+
+                        </p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2"></div>
+                    <div class="col-md-4">
+                        <h3>Data Retrieval and Manipulation</h3>
+                        <ul>
+                            <li>We reached out to UCSD to gather the updated data on Amazon products. </li>
+                            <li>To avoid skewed data, we had to shrink the data via normalization process.</li>
+                            <li>Initial plan was to process data into higher level categories. But it this process turned out to be too manipulative for data with respect to accuracy and utility.</li>
+                            <li>We experimented with feature set and predictor and finally decided to use feature set as category and price. The output variable was user ratings or acceptance.</li>
+                            <li>Models included - Random Forest Classifier and Deep Learning</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-4">
+                            <img src="category.py.jpg" alt="place holder">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2"></div>
+                    <div class="col-md-8">
+                        <h3>Challenges</h3>
+                        <ul>
+                            <li>The main challenge was to process and clean 20GB of data in json format to fit in pandas and make it usable for models.</li>
+                            <li>A lot of encoding was required before data was ready to be used in the model.</li>
+                            <li>Most of our data is in string format and models required the data in int or float format.</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="row"></div>
+                <div class="row"></div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="dropdown col-md-4">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                  Dropdown button
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                  <a class="dropdown-item" href="#">Action</a>
+                                  <a class="dropdown-item" href="#">Another action</a>
+                                  <a class="dropdown-item" href="#">Something else here</a>
+                                </div>
+                              </div>
+                              </div>
+                            </div>
+                <div class="row">
+                    <div class="col-md-2"></div>
+                    <div class="col-md-4">
+                        <div class="row">
+                            <div class="col-md-4"><h5><b>Category</b></h5></div>
+                        </div>
+                        <div class="row magnitude-col">
+                            <div class="col-md-4" id="mag1" onclick="filter_data(this.id, 'Travel')">Travel</div>
+                        </div>
+                        <div class="row magnitude-col">
+                            <div class="col-md-4" id="mag2" onclick="filter_data(this.id, 6)">Sports & Outdoors</div>
+                        </div>
+                        <div class="row magnitude-col">
+                            <div class="col-md-4" id="mag3" onclick="filter_data(this.id, 5)">Health</div>
+                        </div>
+                        <div class="row magnitude-col">
+                            <div class="col-md-4" id="mag4" onclick="filter_data(this.id, 4)">Computer & Technology</div>
+                        </div>
+                            <div class="row magnitude-col">
+                        <div class="col-md-4" id="mag5" onclick="filter_data(this.id, 3)">Politics & Social Sciences</div>
+                        </div>
+                            <div class="row magnitude-col">
+                        <div class="col-md-4" id="mag6" onclick="filter_data(this.id, 2)">Education & Teaching</div>
+                        </div>
+                        <div class="row magnitude-col">
+                            <div class="col-md-4" id="mag7" onclick="filter_data(this.id, 1)">New</div>
+                        </div>
+                        <div class="row magnitude-col">
+                                <div class="col-md-4" id="mag7" onclick="filter_data(this.id, 1)">Childrens Books</div>
+                            </div> 
+                        <div class="row magnitude-col">
+                            <div class="col-md-4" id="mag7" onclick="filter_data(this.id, 1)">Biographies & Memoirs</div>
+                        </div>
+                        <div class="row magnitude-col">
+                            <div class="col-md-4" id="mag7" onclick="filter_data(this.id, 1)">Literature & Fiction</div>
+                        </div> 
+                        <div class="row magnitude-col">
+                                <div class="col-md-4" id="mag7" onclick="filter_data(this.id, 1)">Crafts</div>
+                            </div>                                            
+                        <div class="row magnitude-col">
+                                <div class="col-md-4" id="mag7" onclick="filter_data(this.id, 1)">Cookbooks</div>
+                            </div> 
+                        <div class="row magnitude-col">
+                                <div class="col-md-4" id="mag7" onclick="filter_data(this.id, 1)">Science Fiction & Fantasy</div>
+                            </div>
+                        <div class="row magnitude-col">
+                                <div class="col-md-4" id="mag7" onclick="filter_data(this.id, 1)">Reference</div>
+                            </div>
+                        <div class="row magnitude-col">
+                                <div class="col-md-4" id="mag7" onclick="filter_data(this.id, 1)">Arts & Photography</div>
+                            </div>
+                        <div class="row magnitude-col">
+                                <div class="col-md-4" id="mag7" onclick="filter_data(this.id, 1)">Humor & Entertainment</div>
+                            </div>
+                        <div class="row magnitude-col">
+                                <div class="col-md-4" id="mag7" onclick="filter_data(this.id, 1)">Medical Books</div>
+                            </div>
+                    </div>
+                    <div class="col-md-10">
+               
+
+                    </div>
+            </div>
+    <script src="static/js/plot.js"></script>
+</body>
+</html>
