@@ -64,7 +64,6 @@ model.fit(
 #test model with test data
 model_loss, model_acc = model.evaluate(X_test_scaled, y_test_categorical, verbose=2)
 print(model_acc)
-print(model_loss)
 model.save('user_rating_model.h5')
 
 #price and category array to predict user ratings
