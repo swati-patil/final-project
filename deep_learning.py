@@ -44,7 +44,7 @@ y_test_categorical = to_categorical(encoded_y_test)
 
 # Create deep learning model and add layers
 model = Sequential()
-model.add(Dense(units=100, activation='relu', input_dim=2))
+model.add(Dense(units=100, activation='relu', input_dim=X_train_scaled.shape[1]))
 #model.add(Dense(units=100, activation='relu'))
 model.add(Dense(units=100, activation='relu'))
 model.add(Dense(units=y_train_categorical.shape[1], activation='softmax'))
@@ -63,10 +63,7 @@ model.fit(
 
 #test model with test data
 model_loss, model_acc = model.evaluate(X_test_scaled, y_test_categorical, verbose=2)
-
 print(model_acc)
-
-print(X.shape)
 model.save('user_rating_model.h5')
 
 #price and category array to predict user ratings
