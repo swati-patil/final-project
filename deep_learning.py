@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 
-reviews = pd.read_csv('final_data.csv', error_bad_lines=False, index_col=False, dtype='unicode')
+reviews = pd.read_csv('merged_no_agg.csv', error_bad_lines=False, index_col=False, dtype='unicode')
 print(reviews.head())
 
 reviews = reviews.drop("categories", axis=1)
@@ -22,8 +22,8 @@ reviews = reviews.drop("final_cat", axis=1)
 reviews = reviews.drop("asin", axis=1)
 reviews = reviews.drop("price", axis=1)
 
-X = reviews.drop("title", axis=1)
-y = reviews_1["price"]
+X = reviews_1[["price", "cat_encode"]]
+y = reviews["overall"]
 print(X.shape, y.shape)
 X = X.dropna()
 print(X.dtypes)
@@ -37,9 +37,9 @@ from keras.utils import to_categorical
 
 X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=42, test_size=0.33)
 
-#X_scaler = StandardScaler().fit(X_train)
-#X_train_scaled = X_scaler.transform(X_train)
-#X_test_scaled = X_scaler.transform(X_test)
+X_scaler = StandardScaler().fit(X_train)
+X_train_scaled = X_scaler.transform(X_train)
+X_test_scaled = X_scaler.transform(X_test)
 
 
 # Step 1: Label-encode data set
@@ -47,7 +47,7 @@ label_encoder = LabelEncoder()
 label_encoder.fit(y_train)
 encoded_y_train = label_encoder.transform(y_train)
 print(y_train)
-y_test = y_test.map(lambda s: '44.99' if s not in label_encoder.classes_ else s)
+y_test = y_test.map(lambda s: '4.0' if s not in label_encoder.classes_ else s)
 encoded_y_test = label_encoder.transform(y_test)
 
 # Step 2: Convert encoded labels to one-hot-encoding
@@ -60,20 +60,21 @@ from keras.layers import Dense
 
 # Create model and add layers
 model = Sequential()
-model.add(Dense(units=100, activation='relu', input_dim=4))
+model.add(Dense(units=100, activation='relu', input_dim=2))
+#model.add(Dense(units=100, activation='relu'))
 model.add(Dense(units=100, activation='relu'))
 model.add(Dense(units=y_train_categorical.shape[1], activation='softmax'))
 
 
 print("Column names")
 
-print(X_train.columns)
+#print(X_train_scaled.columns)
 
 print('-----------------------')
 print(y_train_categorical)
 print('-------------------------')
 
-X_train = X_train.dropna()
+#X_train = X_train_scaled.dropna()
 
 #X_train['overall'] = X_train['overall'].astype(float)
 #X_train['cat_encode'] = X_train['cat_encode'].astype(float)
@@ -83,9 +84,24 @@ model.compile(optimizer='adam',
               loss='categorical_crossentropy',
               metrics=['accuracy'])
 model.fit(
-    X_train,
+    X_train_scaled,
     y_train_categorical,
     epochs=60,
     shuffle=True,
     verbose=2
 )
+
+model_loss, model_acc = model.evaluate(X_test_scaled, y_test_categorical, verbose=2)
+
+print(model_acc)
+
+print(X.shape)
+model.save('user_rating_model.h5')
+
+data = np.array([14.95, 10])
+print(data.shape)
+#data = data.reshape((data.shape[0], 1))
+#pred = model.predict_classes(data)
+#pred_labels = label_encoder.inverse_transform(pred)
+
+#print(pred_labels)
