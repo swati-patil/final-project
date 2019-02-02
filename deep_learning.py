@@ -100,8 +100,8 @@ model.save('user_rating_model.h5')
 
 data = np.array([14.95, 10])
 print(data.shape)
-#data = data.reshape((data.shape[0], 1))
-#pred = model.predict_classes(data)
-#pred_labels = label_encoder.inverse_transform(pred)
+data = data.reshape(-1, 2)
+pred = model.predict_classes(data)
+pred_labels = label_encoder.inverse_transform(pred)
 
-#print(pred_labels)
+print(pred_labels)
