@@ -1,12 +1,11 @@
 import pandas as pd
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.datasets import load_iris
+from sklearn.model_selection import train_test_split
+import pickle
 
-reviews = pd.read_csv('merged_no_agg.csv', error_bad_lines=False, index_col=False, dtype='unicode')
+reviews = pd.read_csv('msm.csv', error_bad_lines=False, index_col=False, dtype='unicode')
 print(reviews.head())
 
-#reviews = reviews.drop("categories", axis=1)
-#reviews = reviews.fillna(value="No Title")
 reviews = reviews.dropna()
 
 
@@ -17,69 +16,32 @@ for i in reviews.index:
     print(cat)
     print(i)  
     reviews.at[i, 'cat_encode'] = trans[cat]
-print(reviews.columns)
-
-#reviews_1 = reviews
-#reviews = reviews.drop("final_cat", axis=1)
-#reviews = reviews.drop("asin", axis=1)
-#reviews = reviews.drop("price", axis=1)
-
-#X = reviews.drop("title", axis=1)
-#X = X.drop("categories", axis=1)
-#X = X.drop("asin", axis=1)
+#print(reviews.columns)
  
 X = reviews[["price", "cat_encode"]] 
 y = reviews["overall"]
-#print(X.columns)
-
-#prices = y["price"].values.tolist()
-
-if 'No Title' in y:
-    print("String found in price list")
-
-print("---------------------")
-
-#X= X.drop("index", axis=1)
-#X = X.drop("Unnamed: 0", axis=1)
-
 
 rf = RandomForestClassifier(n_estimators=500)
 
-#X = [X]
-from sklearn.model_selection import train_test_split
+
 X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=42, test_size=0.33)
 
 rf = rf.fit(X_test, y_test)
-print('----------------------------------------')
-
+print('-----------------------------------------------')
 print(rf.score(X_train, y_train))
 print('-----------------------------------------------')
 
 importances = rf.feature_importances_
+print("--------------------------------------------")
 print(importances)
 print("--------------------------------------------")
 
-print("--------------------------------------------")
-
-print(X.shape)
-
-print(X.head())
-
-print (y.shape)
-print(y.head())
-
-import pickle
-
 filename = 'random-forest-model.sav'
 pickle.dump(rf, open(filename, 'wb'))
+
+#test random forest model with custom values
 loaded_model = pickle.load(open(filename, 'rb'))
-
-
 x_t = [[14.99, 10]]
-y_t = [10.00]
 
 result = loaded_model.predict(x_t)
-
 print(result)
-
-print('---------------------------------------------------')
